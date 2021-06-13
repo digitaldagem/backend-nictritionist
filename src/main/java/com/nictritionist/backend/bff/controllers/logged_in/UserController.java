@@ -119,9 +119,7 @@ public class UserController {
                 foodEatenRequestDTO.getUsername(),
                 foodEatenRequestDTO.getDate()
         );
-        FoodEatenResponseDTO foodEatenResponseDTO = foodEatenRepository.save(foodEaten).getFoodEatenResponseDTO();
-        System.out.println(foodEatenResponseDTO.toString());
-        return foodEatenResponseDTO;
+        return foodEatenRepository.save(foodEaten).getFoodEatenResponseDTO();
     }
 
     @GetMapping("/foods_eaten_today/{username}/{date}")
