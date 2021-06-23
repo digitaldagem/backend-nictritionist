@@ -18,7 +18,7 @@ public class FoodEaten {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String barcode;
+    private String barcodeOrItem;
     private String brandOwner;
     private String foodDescription;
     private String amountEaten;
@@ -29,13 +29,25 @@ public class FoodEaten {
     private String username;
     private String _date;
 
-    public FoodEaten(String barcode, String brandOwner, String foodDescription, String amountEaten,
+    public FoodEaten(String barcodeOrItem, String brandOwner, String foodDescription, String amountEaten,
                      String servingSize, String servingSizeUnit, List<Long> nutrientEatenIds,
                      String username, String _date) {
-        this.barcode = barcode;
+        this.barcodeOrItem = barcodeOrItem;
         this.brandOwner = brandOwner;
         this.foodDescription = foodDescription;
         this.amountEaten = amountEaten;
+        this.servingSize = servingSize;
+        this.servingSizeUnit = servingSizeUnit;
+        this.nutrientEatenIds = nutrientEatenIds;
+        this.username = username;
+        this._date = _date;
+    }
+
+    public FoodEaten(String barcodeOrItem, String brandOwner, String foodDescription, String servingSize,
+                     String servingSizeUnit, List<Long> nutrientEatenIds, String username, String _date) {
+        this.barcodeOrItem = barcodeOrItem;
+        this.brandOwner = brandOwner;
+        this.foodDescription = foodDescription;
         this.servingSize = servingSize;
         this.servingSizeUnit = servingSizeUnit;
         this.nutrientEatenIds = nutrientEatenIds;
@@ -54,7 +66,7 @@ public class FoodEaten {
     public FoodEatenResponseDTO getFoodEatenResponseDTO() {
         return new FoodEatenResponseDTO(
                 id,
-                barcode,
+                barcodeOrItem,
                 brandOwner,
                 foodDescription,
                 amountEaten,

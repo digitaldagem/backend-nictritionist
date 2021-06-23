@@ -107,17 +107,33 @@ public class UserController {
 
     @PostMapping("/food_eaten")
     @PreAuthorize("hasRole('USER')")
-    public FoodEatenResponseDTO addFoodEaten(@RequestBody FoodEatenRequestDTO foodEatenRequestDTO) {
+    public FoodEatenResponseDTO addFoodEaten(@RequestBody FoodBarcodeEatenRequestDTO foodBarcodeEatenRequestDTO) {
         FoodEaten foodEaten = new FoodEaten(
-                foodEatenRequestDTO.getBarcode(),
-                foodEatenRequestDTO.getBrandOwner(),
-                foodEatenRequestDTO.getFoodDescription(),
-                foodEatenRequestDTO.getAmountEaten(),
-                foodEatenRequestDTO.getServingSize(),
-                foodEatenRequestDTO.getServingSizeUnit(),
-                foodEatenRequestDTO.getNutrientEatenIds(),
-                foodEatenRequestDTO.getUsername(),
-                foodEatenRequestDTO.getDate()
+                foodBarcodeEatenRequestDTO.getBarcode(),
+                foodBarcodeEatenRequestDTO.getBrandOwner(),
+                foodBarcodeEatenRequestDTO.getFoodDescription(),
+                foodBarcodeEatenRequestDTO.getAmountEaten(),
+                foodBarcodeEatenRequestDTO.getServingSize(),
+                foodBarcodeEatenRequestDTO.getServingSizeUnit(),
+                foodBarcodeEatenRequestDTO.getNutrientEatenIds(),
+                foodBarcodeEatenRequestDTO.getUsername(),
+                foodBarcodeEatenRequestDTO.getDate()
+        );
+        return foodEatenRepository.save(foodEaten).getFoodEatenResponseDTO();
+    }
+
+    @PostMapping("/food_eaten_item")
+    @PreAuthorize("hasRole('USER')")
+    public FoodEatenResponseDTO addFoodItemEaten(@RequestBody FoodItemEatenRequestDTO foodItemEatenRequestDTO) {
+        FoodEaten foodEaten = new FoodEaten(
+                foodItemEatenRequestDTO.getItem(),
+                foodItemEatenRequestDTO.getBrandOwner(),
+                foodItemEatenRequestDTO.getFoodDescription(),
+                foodItemEatenRequestDTO.getServingSize(),
+                foodItemEatenRequestDTO.getServingSizeUnit(),
+                foodItemEatenRequestDTO.getNutrientEatenIds(),
+                foodItemEatenRequestDTO.getUsername(),
+                foodItemEatenRequestDTO.getDate()
         );
         return foodEatenRepository.save(foodEaten).getFoodEatenResponseDTO();
     }
