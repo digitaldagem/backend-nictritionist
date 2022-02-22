@@ -1,5 +1,6 @@
 package com.nictritionist.backend.security.services;
 
+import java.io.Serial;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final Long id;

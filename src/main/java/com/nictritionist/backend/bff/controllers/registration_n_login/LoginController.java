@@ -22,11 +22,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/login")
 public class LoginController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    JwtUtils jwtUtils;
+    public LoginController(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+    }
 
     @PostMapping
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginDTO loginDTO) {

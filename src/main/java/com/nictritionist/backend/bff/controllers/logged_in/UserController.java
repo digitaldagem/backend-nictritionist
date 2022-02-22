@@ -20,12 +20,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/i/users")
 public class UserController {
 
+    private final UserRepository userRepository;
+    private final NutrientEatenRepository nutrientEatenRepository;
+    private final FoodEatenRepository foodEatenRepository;
+
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    NutrientEatenRepository nutrientEatenRepository;
-    @Autowired
-    FoodEatenRepository foodEatenRepository;
+    public UserController(UserRepository userRepository, NutrientEatenRepository nutrientEatenRepository, FoodEatenRepository foodEatenRepository) {
+        this.userRepository = userRepository;
+        this.nutrientEatenRepository = nutrientEatenRepository;
+        this.foodEatenRepository = foodEatenRepository;
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -41,7 +45,7 @@ public class UserController {
         }
         return ResponseEntity
                 .badRequest()
-                .body(new MessageDTO("Error: User id not found!"));
+                .body("Error: User id not found!");
     }
 
     @PostMapping("/nutrient_eaten")

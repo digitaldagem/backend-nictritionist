@@ -6,10 +6,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class NutrientEaten {
 
     @Id

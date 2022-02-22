@@ -1,7 +1,6 @@
 package com.nictritionist.backend.bff.controllers.registration_n_login;
 
 import com.nictritionist.backend.bff.dtos.requests.*;
-import com.nictritionist.backend.bff.dtos.responses.MessageDTO;
 import com.nictritionist.backend.storage.user.*;
 import com.nictritionist.backend.storage.user.role.*;
 
@@ -18,24 +17,29 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/register")
 public class RegistrationController {
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public RegistrationController(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostMapping("/user")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserSignupDTO userSignUpDTO) {
         if (userRepository.findByUsername(userSignUpDTO.getFirstName()+"."+userSignUpDTO.getLastName()).isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageDTO("Error: Username is already taken!"));
+                    .body("Error: Username is already taken!");
         }
         if (userRepository.findByEmail(userSignUpDTO.getEmail()).isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageDTO("Error: Email is already in use!"));
+                    .body("Error: Email is already in use!");
         }
         User user = new User(userSignUpDTO.getFirstName()+"."+userSignUpDTO.getLastName(),
                 userSignUpDTO.getEmail(),
@@ -59,12 +63,12 @@ public class RegistrationController {
                 adminSignUpDTO.getFirstName()+"."+ adminSignUpDTO.getLastName()).isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageDTO("Error: Username is already registered with another account!"));
+                    .body("Error: Username is already registered with another account!");
         }
         if (userRepository.findByEmail(adminSignUpDTO.getEmail()).isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageDTO("Error: Email is already registered with another account!"));
+                    .body("Error: Email is already registered with another account!");
         }
         User user = new User(adminSignUpDTO.getFirstName() + "." + adminSignUpDTO.getLastName(),
                 adminSignUpDTO.getEmail(),

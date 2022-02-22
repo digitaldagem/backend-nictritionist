@@ -1,7 +1,6 @@
 package com.nictritionist.backend.bff.controllers.registration_n_login;
 
 import com.nictritionist.backend.bff.dtos.requests.ResetPasswordDTO;
-import com.nictritionist.backend.bff.dtos.responses.MessageDTO;
 import com.nictritionist.backend.storage.user.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,14 @@ import javax.validation.Valid;
 @RequestMapping("/api/forgot_password")
 public class ForgotPasswordController {
 
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public ForgotPasswordController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostMapping
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO) {
@@ -30,11 +33,11 @@ public class ForgotPasswordController {
                 user.setPassword(passwordEncoder.encode(resetPasswordDTO.getNewPassword()));
                 userRepository.save(user);
                 return ResponseEntity
-                    .ok(new MessageDTO("Your password has been changed!"));
+                    .ok("Your password has been changed!");
             }
-            return ResponseEntity.badRequest().body(new MessageDTO("Email cannot be found!"));
+            return ResponseEntity.badRequest().body("Email cannot be found!");
         }
-        return ResponseEntity.badRequest().body(new MessageDTO("Username cannot be found!"));
+        return ResponseEntity.badRequest().body("Username cannot be found!");
     }
 
 }

@@ -17,12 +17,16 @@ public class LoadDataService implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadDataService.class);
 
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public LoadDataService(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void run(String... args) {

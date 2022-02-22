@@ -11,10 +11,10 @@ import javax.validation.constraints.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class User {
 
     @Id
